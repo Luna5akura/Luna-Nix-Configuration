@@ -1,0 +1,5 @@
+*.qcow2
+*.vdi
+result
+.direnv
+.secrets/

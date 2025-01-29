@@ -1,0 +1,12 @@
+{ ... }: {
+  nixpkgs.config.packageOverrides = pkgs: with pkgs; {
+    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+      inherit pkgs;
+    };
+    olympus = callPackage ./olympus/package.nix {};
+    baidunetdisk = callPackage ./baidunetdisk/package.nix {};
+    spotify-ad-muter = callPackage ./spotify-ad-muter/package.nix {};
+  };
+
+  environment.pathsToLink = [ "/libexec" ];
+}
