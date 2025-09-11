@@ -33,6 +33,10 @@
 
   services.displayManager = {
     sddm.enable = true;
+    sddm.settings.X11= {
+      KeyboardLayout = "custom";
+      KeyboardOptions = "caps:swapescape";
+    };
     defaultSession = "plasmax11";
   };
   services.desktopManager.plasma6.enable = true;
