@@ -4,17 +4,13 @@
 
   programs.nix-ld = {
     enable = true;
-    package = pkgs.nix-ld-rs;
     libraries = with pkgs; [
       stdenv.cc.cc
       libGL
-      libgcc
     ];
   };
 
   programs.direnv.enable = true;
-
-  programs.firefox.enable = true;
 
   programs.steam = {
     enable = true;
@@ -23,7 +19,7 @@
 
   programs.zsh = {
     enable = true;
-    oh-my-zsh = {
+    ohMyZsh = {
       enable = true;
       plugins = [ "git" "thefuck" "sudo" ];
       theme = "robbyrussell";

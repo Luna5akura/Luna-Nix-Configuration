@@ -3,10 +3,20 @@
     nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
       inherit pkgs;
     };
-    olympus = callPackage ./olympus/package.nix {};
+    
+    vim = vim_configurable.customize {
+      name = "vim";
+      vimrcConfig.customRC = ''
+        set clipboard=unnamedplus
+      '';
+    };
+  
+    # olympus = callPackage ./olympus/package.nix {};
     baidunetdisk = callPackage ./baidunetdisk/package.nix {};
-    spotify-ad-muter = callPackage ./spotify-ad-muter/package.nix {};
+    spotify-ad-muter = callPackage ./spotify-ad-muter/default.nix {};
   };
-
+  
+  imports = [ /etc/nixos/custom-packages/spotify-ad-muter/module.nix ];
+  services.spotify-ad-muter.enable = true;
   environment.pathsToLink = [ "/libexec" ];
 }

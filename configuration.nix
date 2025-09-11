@@ -8,10 +8,8 @@
     ./applications.nix
   ];
 
-  # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
-  # Select internationalisation properties.
   i18n = {
     defaultLocale = "zh_CN.UTF-8";
     extraLocaleSettings = {
@@ -27,7 +25,6 @@
     };
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.luna = {
     isNormalUser = true;
     description = "Luna";
@@ -36,18 +33,10 @@
   users.defaultUserShell = pkgs.zsh;
   security.sudo.wheelNeedsPassword = false;
 
-  # Shell
   environment.shells = with pkgs; [ zsh ];
 
-  # Generation GC
   nix.optimise.automatic = true;
-  # nix.gc = {
-  #   automatic = true;
-  #   dates = "daily";
-  #   options = "--delete-older-than 7d";
-  # };
 
-  # Nix settings
   nix.settings = {
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -71,5 +60,12 @@
     allowUnfree = true;
   };
 
+  virtualisation = {
+    docker = {
+      enable = true;
+    };
+  };
+
   system.stateVersion = "24.11";
+
 }

@@ -8,10 +8,29 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" "sdhci_pci" ];
+  # boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  # boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    "mem_sleep_default=deep"  # 强制使用深度睡眠模式
+    "nvme.noacpi=1"           # 如果使用NVMe SSD可尝试此参数
+  ];
+
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    grub = {
+      enable = true;
+      efiSupport = true;
+      devices = [ "nodev" ];  # UEFI 模式下无需指定磁盘
+    };
+  };
+
+  services.logind = {
+    lidSwitch = "suspend";        # 合盖时挂起
+    lidSwitchDocked = "ignore";   # 连接扩展坞时忽略合盖动作
+    lidSwitchExternalPower = "lock"; # 外接电源时锁定（可选）
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/c25da4a9-4263-4eb4-b049-ded8d08d46ad";
@@ -26,24 +45,24 @@
 
   swapDevices = [ ];
 
-  boot.loader.grub.devices = [ "nodev" ];
-
-  hardware.nvidia.open = true;
-
-  services.logind.lidSwitch = "suspend";
-  services.xserver.libinput.enable = true;
-  services.xserver.libinput.touchpad = {
-    naturalScrolling = false;
-  };
-
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vboxnet0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  hardware.nvidia = {
+     open = true;
+   powerManagement = {
+      enable = true;
+      # finegrained = true;  # 启用更细粒度的电源管理
+    };
+    modesetting.enable = true;  # 启用内核级显示模式设置
+  };
 }

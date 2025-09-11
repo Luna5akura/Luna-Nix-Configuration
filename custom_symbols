@@ -1,0 +1,6 @@
+xkb_symbols "altr_to_backslash" {
+    include "cn(basic)"  
+    name[Group1]= "Chinese (with AltR=backslash)";
+
+    replace key <RALT> { [ backslash, bar ] };
+};

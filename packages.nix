@@ -46,10 +46,25 @@ let packages = {
     thefuck
     openssl
     softether
+    libinput
+    evtest
+    xdotool
+    xbindkeys
+    docker
   ];
 
   mcuPackages = [
     sdcc   
+  ];
+
+  pythonPkgs = [
+    python311
+    python311Packages.pandas
+    python311Packages.numpy
+    python311Packages.scikit-learn
+    python311Packages.scipy
+    python311Packages.matplotlib
+    python311Packages.manim
   ];
 
   clangPkgs = [
@@ -69,7 +84,6 @@ let packages = {
   haskellPkgs = with haskellPackages; [
     ghc
     haskell-language-server
-    stack
   ];
 
   rustPkgs = [
@@ -77,10 +91,11 @@ let packages = {
   ];
 
   androidPkgs = [
-      android-studio
+    # android-studio
   ];
 
   desktopPkgs = [
+    home-manager
     nur.repos.linyinfeng.wemeet
     xclip
     desktop-file-utils
@@ -94,7 +109,12 @@ let packages = {
     lightspark
     aseprite
     spotify
+    godot_4
+    discord
+    lmms
     spotify-ad-muter
+    feishu
+    musescore	
   ] ++ (with kdePackages; [
     kolourpaint
     partitionmanager
@@ -104,8 +124,8 @@ let packages = {
     accounts-qt
     kmail-account-wizard
     krita
-    kalendar
     v2raya
+    merkuro
   ]);
 
   videoAndAudioPkgs = [
@@ -115,13 +135,15 @@ let packages = {
     helvum
     qpwgraph
     playerctl
-    pulseaudio
-    gnugrep
+  ];
+
+  ctfPkgs = [
+    burpsuite
   ];
 
   gamePkgs = [
     prismlauncher
-    olympus
+    # olympus
   ];
 
   winePkgs = [
@@ -141,7 +163,15 @@ let packages = {
     aria2
     uget
   ];
+
+  embedPkgs = [
+    stm32cubemx
+  ];
 };
 in {
-  environment.systemPackages = foldlSet opCon [] packages;
+  environment.systemPackages = (foldlSet opCon [] packages);
+
+#  environment.systemPackages = (foldlSet opCon [] packages) ++ [
+#    (import <nixos> {}).musescore
+#];
 }

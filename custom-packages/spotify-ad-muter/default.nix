@@ -4,10 +4,9 @@ stdenvNoCC.mkDerivation rec {
   pname = "spotify-ad-muter";
   version = "1.0";
 
-  # 直接嵌入脚本内容（或替换为 src = ./script.sh;）
   src = ./.;
 
-  nativeBuildInputs = [ bash ];
+  # 明确声明运行时依赖
   buildInputs = [ playerctl pulseaudio gawk ];
 
   installPhase = ''
