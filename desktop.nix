@@ -16,7 +16,7 @@
           xkb_symbols "custom" {
               include "us(basic)"
               replace key <RALT> { [ backslash, bar ] };
-              replace key <RSHI> { [ minus, underscore ] };
+              key <RTSH> { [ underscore, underscore ] };
           };
         '';
       };  
