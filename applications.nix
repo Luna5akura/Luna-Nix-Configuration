@@ -1,6 +1,12 @@
 
-{ pkgs, ... }: {
+{ pkgs, configs,  ... }: {
   virtualisation.virtualbox.host.enable = true;
+
+  programs.vim = {
+    enable = true;
+    package = pkgs.vim-full; # 确保用的是完整版
+    defaultEditor = true;
+  };
 
   programs.nix-ld = {
     enable = true;
@@ -34,6 +40,8 @@
   programs.adb.enable = true;
 
   programs.kdeconnect.enable = true;
+
+
 
   services.static-web-server = {
     enable = false;

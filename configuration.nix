@@ -28,7 +28,7 @@
   users.users.luna = {
     isNormalUser = true;
     description = "Luna";
-    extraGroups = [ "networkmanager" "wheel" "kvm" "adbusers" "vboxusers" "dialout" ];
+    extraGroups = [ "networkmanager" "wheel" "kvm" "adbusers" "vboxusers" "dialout" "input" "uinput" ];
   };
   users.defaultUserShell = pkgs.zsh;
   security.sudo.wheelNeedsPassword = false;

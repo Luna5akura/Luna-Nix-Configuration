@@ -6,7 +6,15 @@ let packages = {
   cliPkgs = [
     git
     gh
-    vim
+    ((vim_configurable.override { }).customize {
+      name = "vim-full";
+      vimrcConfig.customRC = ''
+        " 尝试读取用户目录下的 .vimrc
+        if filereadable(expand("~/.vimrc"))
+          source ~/.vimrc
+        endif
+      '';
+    })
     lsd
     fzf
     zip
@@ -109,12 +117,13 @@ let packages = {
     lightspark
     aseprite
     spotify
-    godot_4
+    godotPackages_4_5.godot
     discord
     lmms
     spotify-ad-muter
     feishu
     musescore	
+    nethack
   ] ++ (with kdePackages; [
     kolourpaint
     partitionmanager
