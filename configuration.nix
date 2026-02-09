@@ -35,6 +35,12 @@
 
   environment.shells = with pkgs; [ zsh ];
 
+  environment.variables = {
+    LIBVA_DRIVER_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  };
+
   nix.optimise.automatic = true;
 
   nix.settings = {
@@ -59,6 +65,10 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "qtwebengine-5.15.19"
+  ];
 
   virtualisation = {
     docker = {

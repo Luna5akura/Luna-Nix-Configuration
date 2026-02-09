@@ -6,7 +6,7 @@ let packages = {
   cliPkgs = [
     git
     gh
-    ((vim_configurable.override { }).customize {
+    ((pkgs."vim-full".override { }).customize {
       name = "vim-full";
       vimrcConfig.customRC = ''
         " 尝试读取用户目录下的 .vimrc
@@ -51,7 +51,6 @@ let packages = {
     p7zip
     traceroute
     krb5
-    thefuck
     openssl
     softether
     libinput
@@ -72,7 +71,6 @@ let packages = {
     python311Packages.scikit-learn
     python311Packages.scipy
     python311Packages.matplotlib
-    python311Packages.manim
   ];
 
   clangPkgs = [
@@ -104,7 +102,6 @@ let packages = {
 
   desktopPkgs = [
     home-manager
-    nur.repos.linyinfeng.wemeet
     xclip
     desktop-file-utils
     vscode
@@ -112,29 +109,25 @@ let packages = {
     google-chrome
     telegram-desktop
     zotero
-    netease-cloud-music-gtk
     libreoffice
-    lightspark
-    aseprite
+    #  aseprite
     spotify
-    godotPackages_4_5.godot
+    godotPackages_4_6.godot
     discord
     lmms
     spotify-ad-muter
-    feishu
     musescore	
     nethack
   ] ++ (with kdePackages; [
     kolourpaint
     partitionmanager
     filelight
-    kdenlive
     kmail
     accounts-qt
     kmail-account-wizard
     krita
     v2raya
-    merkuro
+    cataclysm-dda
   ]);
 
   videoAndAudioPkgs = [
@@ -156,7 +149,7 @@ let packages = {
   ];
 
   winePkgs = [
-    wineWowPackages.waylandFull
+    wineWow64Packages.stable
     winetricks
     samba
   ];

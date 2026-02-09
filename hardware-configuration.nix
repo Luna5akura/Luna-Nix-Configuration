@@ -57,12 +57,18 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [ intel-vaapi-driver libvdpau-va-gl libva-vdpau-driver nvidia-vaapi-driver ];
+  };
+
   hardware.nvidia = {
-     open = true;
-   powerManagement = {
+    open = true;
+    powerManagement = {
       enable = true;
       # finegrained = true;  # 启用更细粒度的电源管理
     };
     modesetting.enable = true;  # 启用内核级显示模式设置
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 }

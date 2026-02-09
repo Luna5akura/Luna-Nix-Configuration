@@ -4,7 +4,7 @@
       inherit pkgs;
     };
     
-    vim = vim_configurable.customize {
+    vim = vim_full.customize {
       name = "vim";
       vimrcConfig.customRC = ''
         set clipboard=unnamedplus

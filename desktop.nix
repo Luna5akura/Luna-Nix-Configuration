@@ -146,9 +146,9 @@ in
           ;; 右手: 数字小键盘
           (deflayer numbers
             _    _      _     _      _    _    _    _    _    _    _    _    _    _
-            _    @scr_u @m_up @scr_d _    _    _    7    8    9    0    _    _    _
-            _    @m_lf  @m_dn @m_rt  _    _    _    4    5    6    _    _    _
-            _    _      _     _      _    _    0    1    2    3    _    _
+            _    @scr_u @m_up @scr_d _    _    _    7    8    9    -    _    _    _
+            _    @m_lf  @m_dn @m_rt  _    _  @und   4    5    6   @plus _    _
+            _    _      _     _      _    _    0    1    2    3    .    _
             _    _      @m_rc          @m_lc          _    _    _    _
           )
 
@@ -197,7 +197,7 @@ in
       fcitx5-rime
       fcitx5-anthy
       fcitx5-material-color
-      fcitx5-chinese-addons
+      qt6Packages.fcitx5-chinese-addons
     ];
   };
 
@@ -205,7 +205,7 @@ in
     packages = with pkgs; [
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       wqy_microhei
       nerd-fonts.fira-code 
       sarasa-gothic
