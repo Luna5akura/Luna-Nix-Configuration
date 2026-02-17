@@ -57,6 +57,10 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
+
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [ intel-vaapi-driver libvdpau-va-gl libva-vdpau-driver nvidia-vaapi-driver ];

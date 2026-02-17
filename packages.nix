@@ -110,7 +110,7 @@ let packages = {
     telegram-desktop
     zotero
     libreoffice
-    #  aseprite
+    # aseprite
     spotify
     godotPackages_4_6.godot
     discord
@@ -122,9 +122,9 @@ let packages = {
     kolourpaint
     partitionmanager
     filelight
-    kmail
+    # kmail
     accounts-qt
-    kmail-account-wizard
+    # kmail-account-wizard
     krita
     v2raya
     cataclysm-dda
@@ -167,7 +167,6 @@ let packages = {
   ];
 
   embedPkgs = [
-    stm32cubemx
   ];
 };
 in {
