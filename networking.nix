@@ -4,7 +4,6 @@ in {
   networking = {
     hostName = "luna";
     networkmanager.enable = true;
-    wireless.enable = false;
     firewall.enable = false;
   };
 

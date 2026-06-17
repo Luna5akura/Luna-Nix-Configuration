@@ -6,15 +6,6 @@ let packages = {
   cliPkgs = [
     git
     gh
-    ((pkgs."vim-full".override { }).customize {
-      name = "vim-full";
-      vimrcConfig.customRC = ''
-        " 尝试读取用户目录下的 .vimrc
-        if filereadable(expand("~/.vimrc"))
-          source ~/.vimrc
-        endif
-      '';
-    })
     lsd
     fzf
     zip
@@ -58,6 +49,7 @@ let packages = {
     xdotool
     xbindkeys
     docker
+    codex
   ];
 
   mcuPackages = [
@@ -65,12 +57,6 @@ let packages = {
   ];
 
   pythonPkgs = [
-    python311
-    python311Packages.pandas
-    python311Packages.numpy
-    python311Packages.scikit-learn
-    python311Packages.scipy
-    python311Packages.matplotlib
   ];
 
   clangPkgs = [
@@ -110,7 +96,6 @@ let packages = {
     telegram-desktop
     zotero
     libreoffice
-    # aseprite
     spotify
     godotPackages_4_6.godot
     discord
@@ -134,7 +119,6 @@ let packages = {
     obs-studio
     vlc
     peek
-    helvum
     qpwgraph
     playerctl
   ];
