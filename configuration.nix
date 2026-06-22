@@ -1,6 +1,7 @@
 { pkgs, ... }: with builtins; {
   imports = [
     ./hardware-configuration.nix
+    ./hardware.nix
     ./networking.nix
     ./custom-packages/entry.nix
     ./packages.nix
@@ -35,10 +36,14 @@
 
   environment.shells = with pkgs; [ zsh ];
 
-  environment.variables = {
-    LIBVA_DRIVER_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  environment.shellAliases = {
+    cv = "cd ~/Projects/VSCode";
+    ll = "ls -l";
+    la = "ls -A";
+    lla = "ls -la";
+    gs = "git status";
+    rebuild = "sudo nixos-rebuild switch";
+    update = "sudo nixos-rebuild switch --upgrade";
   };
 
   nix.optimise.automatic = true;

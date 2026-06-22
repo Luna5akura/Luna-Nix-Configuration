@@ -1,33 +1,42 @@
-{ pkgs, config, ... }: 
-let 
-  # 定义键盘设备路径
-  kboard_device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+{ pkgs, ... }:
+let
+  keyboardDevice = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
 in
 {
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
-    xkb = {
-      layout = "us";
-      options = ""; 
+
+    xkb.layout = "us";
+  };
+
+  services.displayManager = {
+    defaultSession = "plasmax11";
+
+    sddm = {
+      enable = true;
+      wayland.enable = false;
+      settings.X11.KeyboardLayout = "us";
     };
- };
+  };
+
+  services.desktopManager.plasma6.enable = true;
 
   environment.sessionVariables = {
     PLASMA_USE_QT_SCALING = "1";
   };
 
-  # 确保 uinput 权限
   boot.kernelModules = [ "uinput" ];
 
+  services.kanata = {
+    enable = true;
+    keyboards.laptop-keyboard = {
+      devices = [ keyboardDevice ];
+      extraDefCfg = ''
+        process-unmapped-keys yes
+        concurrent-tap-hold yes
+      '';
 
-services.kanata = {
-  enable = true;
-  keyboards = {
-    "laptop-keyboard" = {
-      devices = [ kboard_device ];
-      extraDefCfg = "process-unmapped-keys yes\nconcurrent-tap-hold yes";
-      
       config = ''
         (defsrc
           grv 1 2 3 4 5 6 7 8 9 0 - = bspc
@@ -149,7 +158,7 @@ services.kanata = {
         (deflayer numbers
           _ _ _ _ _ _ _ _ _ _ _ _ _ _
           _ @scr_u @m_up @scr_d _ _ bspc 7 8 9 - _ _ _
-          _ @m_lf @m_dn @m_rt _ _ @und 4 5 6 @plus _ _
+          _ @m_lf @m_dn @m_rt _ ret @und 4 5 6 @plus _ _
           _ _ _ _ _ _ 0 1 2 3 . _
           _ _ @m_rc @m_lc _ _ _ _
         )
@@ -179,56 +188,47 @@ services.kanata = {
       '';
     };
   };
-};
 
-
-
-  services.displayManager = {
-    sddm.enable = true;
-    sddm.settings.X11 = {
-      KeyboardLayout = "us";
-      KeyboardOptions = "";
-    };
-    defaultSession = "plasmax11";
-  };
-  
-  services.desktopManager.plasma6.enable = true;
   services.printing.enable = true;
+
   security.rtkit.enable = true;
 
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
-    pulse.enable = true;
     jack.enable = true;
+    pulse.enable = true;
   };
 
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
     fcitx5.addons = with pkgs; [
-      fcitx5-gtk
-      libsForQt5.fcitx5-qt
-      fcitx5-rime
       fcitx5-anthy
+      fcitx5-gtk
       fcitx5-material-color
+      fcitx5-rime
+      libsForQt5.fcitx5-qt
       qt6Packages.fcitx5-chinese-addons
     ];
   };
 
   fonts = {
+    enableDefaultPackages = true;
+    fontDir.enable = true;
+
     packages = with pkgs; [
+      ipafont
+      jetbrains-mono
+      nerd-fonts.fira-code
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-color-emoji
-      wqy_microhei
-      nerd-fonts.fira-code 
       sarasa-gothic
-      jetbrains-mono
-      ipafont 
+      wqy_microhei
     ];
-    fontDir.enable = true;
+
     fontconfig = {
       enable = true;
       defaultFonts = {
@@ -238,12 +238,5 @@ services.kanata = {
         serif = [ "Noto Serif CJK SC" ];
       };
     };
-    enableDefaultPackages = true;
   };
-  
-  environment.etc."nbfc/nbfc.json".text = ''
-    {
-      "SelectedConfigId": "HP Victus 16-e0xxx" 
-    }
-  '';
 }
