@@ -1,52 +1,53 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.spotify-ad-muter;
-in {
+in
+{
   options.services.spotify-ad-muter = {
-    enable = mkEnableOption "Spotify Ad Muter service";
+    enable = lib.mkEnableOption "Spotify advertisement muter user service";
 
-    user = mkOption {
-      type = types.str;
-      default = "luna";
-      description = "User whose Spotify session should be monitored.";
+    package = lib.mkPackageOption pkgs "spotify-ad-muter" { };
+
+    resumeDelay = lib.mkOption {
+      type = lib.types.ints.unsigned;
+      default = 2;
+      description = "Seconds to wait after an advertisement ends before restoring Spotify audio.";
     };
 
-    resumeDelay = mkOption {
-      type = types.int;
+    commandTimeout = lib.mkOption {
+      type = lib.types.ints.unsigned;
       default = 2;
-      description = "Seconds to wait after an ad ends before restoring Spotify audio.";
+      description = "Seconds to wait for each playerctl and pactl command before treating it as failed.";
     };
   };
 
-  config = mkIf cfg.enable {
-    assertions = [
-      {
-        assertion = builtins.hasAttr cfg.user config.users.users;
-        message = "services.spotify-ad-muter.user must name an existing NixOS user.";
-      }
-      {
-        assertion = cfg.resumeDelay >= 0;
-        message = "services.spotify-ad-muter.resumeDelay must be zero or greater.";
-      }
-    ];
-
-    systemd.services.spotify-ad-muter = {
-      description = "Automute Spotify ads";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "systemd-user-sessions.service" ];
-      environment.SPOTIFY_AD_MUTER_RESUME_DELAY = toString cfg.resumeDelay;
+  config = lib.mkIf cfg.enable {
+    systemd.user.services.spotify-ad-muter = {
+      description = "Mute Spotify advertisements";
+      wantedBy = [ "default.target" ];
+      after = [
+        "dbus.service"
+        "pipewire-pulse.service"
+        "pulseaudio.service"
+      ];
+      environment = {
+        SPOTIFY_AD_MUTER_RESUME_DELAY = toString cfg.resumeDelay;
+        SPOTIFY_AD_MUTER_COMMAND_TIMEOUT = toString cfg.commandTimeout;
+      };
       serviceConfig = {
-        User = cfg.user;
-        ExecStart = "${pkgs.spotify-ad-muter}/bin/spotify-ad-muter";
-        ExecStopPost = "${pkgs.spotify-ad-muter}/bin/spotify-ad-muter --restore";
+        ExecStart = lib.getExe cfg.package;
+        ExecStopPost = "${lib.getExe cfg.package} --restore";
         Restart = "always";
         RestartSec = "5s";
       };
     };
-
-    environment.systemPackages = [ pkgs.spotify-ad-muter ];
   };
+
+  meta.maintainers = [ ];
 }

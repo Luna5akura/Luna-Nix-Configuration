@@ -50,6 +50,7 @@ let packages = {
     xbindkeys
     docker
     codex
+    jiten
   ];
 
   mcuPackages = [
@@ -97,10 +98,9 @@ let packages = {
     zotero
     libreoffice
     spotify
-    godotPackages_4_6.godot
+    godot
     discord
     lmms
-    spotify-ad-muter
     musescore	
     nethack
   ] ++ (with kdePackages; [

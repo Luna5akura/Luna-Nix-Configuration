@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 Luna5akura
+# SPDX-License-Identifier: MIT
 
 RESUME_DELAY="${SPOTIFY_AD_MUTER_RESUME_DELAY:-2}"
 case "$RESUME_DELAY" in
