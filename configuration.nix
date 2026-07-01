@@ -41,6 +41,11 @@
     ll = "ls -l";
     la = "ls -A";
     lla = "ls -la";
+
+
+    jj = "jiten jmdict";
+
+
     gs = "git status";
     rebuild = "sudo nixos-rebuild switch";
     update = "sudo nixos-rebuild switch --upgrade";
